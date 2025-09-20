@@ -2,10 +2,11 @@
 REM Consolidated Restic Operations Batch File
 REM VERSION: restic_0.16.2_windows_amd64.exe
 
-SET SOURCE_DIRS=O:\1 "O:\2 0"
-SET BACKUP_DIR="E:\backup_von_externer_ssd"
-SET PASSWORD_ARGS=
-REM SET PASSWORD_ARGS=--password-file password.txt
+REM SET SOURCE_DIRS=C:\1 "C:\2 0"
+SET SOURCE_DIRS=C:\users
+SET BACKUP_DIR="O:\backup_dateien_willi"
+REM SET PASSWORD_ARGS=
+SET PASSWORD_ARGS=--password-file password-willi.txt
 SET PASSWORD_REMINDER=""
 
 :menu
@@ -15,6 +16,7 @@ goto menu_de
 :menu_de
 echo Select an option:
 echo 1. MACHE BACKUP SNAPSHOT
+echo O. MACHE BACKUP SNAPSHOT dann runterfahren
 echo 2. Backup Zielverzeichnis initialisieren
 echo 3. Prüfe Repo schnell
 echo 4. Prüfe Repo schnell alle Inhalte
@@ -45,6 +47,7 @@ set /p choice=Enter your choice (1-7):
 echo %PASSWORD_REMINDER%
 
 if "%choice%"=="1" goto backup
+if "%choice%"=="O" goto backup_shutdown
 if "%choice%"=="2" goto init_backup_dir
 if "%choice%"=="3" goto check_quick
 if "%choice%"=="4" goto check_all
@@ -61,9 +64,12 @@ goto end
 
 :backup
 restic.exe backup %PASSWORD_ARGS% --exclude O:\$RECYCLE.BIN -r %BACKUP_DIR% %SOURCE_DIRS%
-
-
 pause
+goto end
+
+:backup_shutdown
+restic.exe backup %PASSWORD_ARGS% --exclude O:\$RECYCLE.BIN -r %BACKUP_DIR% %SOURCE_DIRS%
+shutdown /s /f /t 0
 goto end
 
 :init_backup_dir
