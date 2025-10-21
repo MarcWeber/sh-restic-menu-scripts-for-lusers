@@ -27,6 +27,7 @@ echo 8. Finde Dateien in Backup (snapshots -> ls)
 echo 9. grafische Wiederherstellung
 echo 0. ANLEITUNG
 set /p choice=Enter your choice (1-7):
+goto choice_switch
 
 :menu_en
 cls
@@ -42,7 +43,10 @@ echo 8. find files in backup (snapshots -> ls)
 echo 9. UI based restore
 echo 0. HOWTO
 set /p choice=Enter your choice (1-7): 
+goto choice_switch
 
+
+:choice_switch
 
 echo %PASSWORD_REMINDER%
 
